@@ -1,4 +1,4 @@
-# patc-spark
+# Data analytics with Apache Spark (PRACE Advanced Training Centre)
 
 Materials for the Apache Spark session for the [PATC course on Big Data Analytics](http://www.bsc.es/big-data-analytics).
 
