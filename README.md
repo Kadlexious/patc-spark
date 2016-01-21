@@ -19,8 +19,10 @@ Copyright: [Mario Macias](http://macias.info)
 ## Recommended bibliography
 
 In English:
-	* [Learning Spark](http://shop.oreilly.com/product/0636920028512.do)
-	* [Spark Cookbook](https://www.packtpub.com/big-data-and-business-intelligence/spark-cookbook)
+
+* [Learning Spark](http://shop.oreilly.com/product/0636920028512.do)
+* [Spark Cookbook](https://www.packtpub.com/big-data-and-business-intelligence/spark-cookbook)
 	
 In Spanish:
-	* [Introducción a Apache Spark](http://www.sparkbarcelona.es/)
+
+* [Introducción a Apache Spark](http://www.sparkbarcelona.es/)
