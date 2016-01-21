@@ -13,9 +13,9 @@ It is divided in 3 submodules (a 4th will be included if there is time) that wil
 1. Resilient-Distributed Datasets and Data Access
 2. Spark SQL
 3. MLlib for machine learning
-4. (_If there is time_) A fourth topic to be decided according to the insterest of the course attendees
+4. (_If there is time_) A fourth topic to be decided according to the interests of the course attendees
 
-Each module consists on a basic theoretical introduction about some basic aspects related to the topic, followed by
+Each module consists on a basic theoretical introduction about some related aspects about the topic, followed by
 hands-on exercises.
 
 ## Software requirements for this course
