@@ -2,6 +2,10 @@
 
 Materials for the Apache Spark session for the [PATC course on Big Data Analytics](http://www.bsc.es/big-data-analytics).
 
+The course exercises can be followed in three programming languages, according to which makes the student feel more confortable:
+Scala, Java and Python. However, Java is discouraged since its verbosity (even with Java 8's _lambdas_) and
+misses some basic functions, such as `RDD.sortBy(...)`.
+
 Copyright: [Mario Macias](http://macias.info)
 
 ## Course info
@@ -32,7 +36,7 @@ to follow the Scala/Java or Python version:
 
 If you plan to follow the Scala/Java version of the course:
 
-* Java Development Kit 1.8 (lower versions will work, but without _lambdas_)
+* Java Development Kit 6 (if you are willing to use Java as main language, Java 8 is recommended)
 * Apache Maven 3
 * Recommended: a good IDE with Java/Scala support ([IntelliJ IDEA](https://www.jetbrains.com/idea/),
 [Scala IDE for Eclipse](http://scala-ide.org/) or [Netbeans](http://www.netbeans.org) + [Scala Plugin](https://github.com/dcaoyuan/nbscala).
