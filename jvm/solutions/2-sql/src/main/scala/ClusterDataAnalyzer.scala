@@ -31,7 +31,6 @@ object ClusterDataAnalyzer {
 
     val taskEventsRDD : RDD[Row] = sparkContext.textFile("task_events.csv")
         .map(line => Row.fromSeq(line.split(',').toSeq))
-        .filter(row => row.getString(0) != null && row.getString(0).matches("\\d+"))
 
 
     val taskEvents : DataFrame = sqlContext.createDataFrame(taskEventsRDD, StructType(Array[StructField](
@@ -54,13 +53,12 @@ object ClusterDataAnalyzer {
 
     sqlContext.sql(
       """
-        SELECT machineEvents.platform_id, COUNT(taskEvents.job_id)
+        SELECT machineEvents.platform_id, COUNT(taskEvents.job_id) as jobs_deployed
         FROM taskEvents, machineEvents
         WHERE
           taskEvents.machine_id = machineEvents.machine_id
         GROUP BY machineEvents.platform_id
       """)
-        .foreach(row => println(row));
-
+      .show()
   }
 }
