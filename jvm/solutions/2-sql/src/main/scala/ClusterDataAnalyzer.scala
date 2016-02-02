@@ -8,7 +8,7 @@ import scala.util.matching.Regex
 /**
   * @author Mario Macias (http://github.com/mariomac)
   */
-object TestScalaSpark {
+object ClusterDataAnalyzer {
   def test(configuration: SparkConf) : Unit = {
     val sparkContext = new SparkContext(configuration);
     val sqlContext = new SQLContext(sparkContext)
@@ -29,18 +29,9 @@ object TestScalaSpark {
 
     machineEvents.registerTempTable("machineEvents");
 
-    def func(rw : Row) = {
-      println(rw); println(new Integer(rw.getString(0)));
-    }
-
     val taskEventsRDD : RDD[Row] = sparkContext.textFile("task_events.csv")
         .map(line => Row.fromSeq(line.split(',').toSeq))
         .filter(row => row.getString(0) != null && row.getString(0).matches("\\d+"))
-          .foreach(rw => func(rw));
-
-    println(taskEventsRDD.count());
-
-    //println(taskEventsRDD.filter(row => println(row.getString(0))); row.getString(0).trim().matches("[0-9]+")).count());
 
 
     val taskEvents : DataFrame = sqlContext.createDataFrame(taskEventsRDD, StructType(Array[StructField](
@@ -67,7 +58,6 @@ object TestScalaSpark {
         FROM taskEvents, machineEvents
         WHERE
           taskEvents.machine_id = machineEvents.machine_id
-          and taskEvents.time < 100000
         GROUP BY machineEvents.platform_id
       """)
         .foreach(row => println(row));
