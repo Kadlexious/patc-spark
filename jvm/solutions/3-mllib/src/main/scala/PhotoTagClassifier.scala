@@ -14,15 +14,17 @@ object PhotoTagClassifier {
     val photoTags : RDD[Seq[String]] = sparkContext.textFile("phototags.txt")
       .map(line => line.toLowerCase.replaceAll("á","a").replaceAll("é","e").replaceAll("í","i").replaceAll("ó","o").replaceAll("ú","u").split(" "));
 
+    photoTags.persist();
+
     val hashingTF : HashingTF = new HashingTF()
     val tf : RDD[Vector] = hashingTF.transform(photoTags)
-    tf.foreach(t => println(t))
 
-    val clusters : KMeansModel = KMeans.train(tf, 2, 1, 10)
+    val clusters : KMeansModel = KMeans.train(tf, 2, 1, 5)
 
     val results = photoTags.map(x => Seq(x, clusters.predict(hashingTF.transform(x))))
     results.foreach(x => println(x))
 
+    photoTags.unpersist();
 
     var football : RDD[Seq[String]] =
       sparkContext.parallelize(Array("barcelona messi gol iniesta")).map(line => line.split(" "))
@@ -33,18 +35,6 @@ object PhotoTagClassifier {
       sparkContext.parallelize(Array("paella ramblas vermut barcelona playa")).map(line => line.split(" "))
     var touristicTf : RDD[Vector] = hashingTF.transform(football)
     touristic.foreach(x => println(s"Predicted category for touristic post: ${clusters.predict(hashingTF.transform(x))}"))
-
-    //    var tourist : RDD[Vector] = hashingTF.transform(
-//      sparkContext.parallelize("").asInstanceOf[RDD[String]].map(line => line.split(" "))
-//    )
-//    println(s"Predicted category for touristic post: ${clusters.predict(tourist)}")
-
-
-
-
-
-
-//    clusters.predict(
 
     sparkContext.stop()
   }
