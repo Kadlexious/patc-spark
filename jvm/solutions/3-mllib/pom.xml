@@ -91,7 +91,7 @@
 				<artifactId>exec-maven-plugin</artifactId>
 				<version>1.4.0</version>
 				<configuration>
-					<mainClass>Main</mainClass>
+					<mainClass>PhotoTagClassifier</mainClass>
 					<!-- avoids maven trying to kill Spark before it ends -->
 					<cleanupDaemonThreads>false</cleanupDaemonThreads>
 				</configuration>
