@@ -6,7 +6,7 @@
 
 	<!-- Change groupId, artifactId and version by program's coordinates-->
 	<groupId>info.macias</groupId>
-	<artifactId>spark-template</artifactId>
+	<artifactId>ml-lib-exercise</artifactId>
 	<version>1.0-SNAPSHOT</version>
 
 	<properties>
@@ -91,7 +91,7 @@
 				<artifactId>exec-maven-plugin</artifactId>
 				<version>1.4.0</version>
 				<configuration>
-					<mainClass>PhotoTagClassifier</mainClass>
+					<mainClass>Main</mainClass>
 					<!-- avoids maven trying to kill Spark before it ends -->
 					<cleanupDaemonThreads>false</cleanupDaemonThreads>
 				</configuration>

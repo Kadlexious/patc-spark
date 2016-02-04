@@ -8,7 +8,7 @@ import org.apache.spark.{SparkContext, SparkConf}
   */
 object PhotoTagClassifier {
 
-  def main(args: Array[String]) {
+  def test {
     val sparkContext : SparkContext = SparkContext.getOrCreate(
       new SparkConf(true).setAppName("MLLibDemo").setMaster("local"));
     val photoTags : RDD[Seq[String]] = sparkContext.textFile("phototags.txt")
