@@ -1,7 +1,0 @@
-*.csv
-
-target
-*.iml
-*.ipr
-*.iws
-.idea
