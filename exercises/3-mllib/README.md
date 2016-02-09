@@ -39,7 +39,7 @@ You must clean the tags by:
 `mllib.feature` package contains classes to extract feature vector from text. This hands-on uses [TF-IDF](https://en.wikipedia.org/wiki/Tf-idf)
 as MLlib example functionality.
 
-First, `HashingTF` class allows obtaining a Hash with the term frequencies of each word in a document. For example:
+`HashingTF` class allows obtaining a Hash with the term frequencies of each word in a document. For example:
 
     scala> import org.apache.spark.mllib._
     scala> import org.apache.spark.rdd.RDD
@@ -49,3 +49,28 @@ First, `HashingTF` class allows obtaining a Hash with the term frequencies of ea
     scala> val tf = hashingTF.transform(words)
     scala> tf.collect()
     res0: Array[org.apache.spark.mllib.linalg.Vector] = Array((1048576,[3139,3555,3707,109267],[2.0,1.0,2.0,1.0]))
+
+The the returned vector shows an array with the next components:
+
+* The default value for `HashingTf()` --> 2^20 = 1048576
+* A vector with the hash representation of each word
+* A vector with the frequency for each of the corresponding words.
+ 
+You can execute the HashingTF transform method to obtain TFs for the tags in the  [phototags.txt](phototags.txt) libraries. You will get a resulting vector for each line of the file.
+
+# 3 - Clustering
+
+Now is time to use the `KMeans` clustering algorithm to classify the pictures into two different categories.
+
+An example of usage of `KMeans`:
+
+        scala> import org.apache.spark.mllib.clustering.KMeans
+        scala> import org.apache.spark.mllib.linalg.Vector
+        scala> import org.apache.spark.mllib.linalg.Vectors
+        scala> var points : Array[org.apache.spark.mllib.linalg.Vector] = Array(
+             | Vectors.dense(10,10), Vectors.dense(11,10), Vectors.dense(-10,-10), Vectors.dense(-12,-9))
+        scala> val clusters = KMeans.train(sc.parallelize(points), 2, 19)
+        scala> clusters.clusterCenters
+        res2: Array[org.apache.spark.mllib.linalg.Vector] = Array([10.5,10.0], [-11.0,-9.5])
+
+Please refer to the [Spark API](https://spark.apache.org/docs/latest/api/scala/index.html) to get the details on the parameters required by `KMeans.train`.
