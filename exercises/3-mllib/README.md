@@ -100,4 +100,10 @@ Example with the 2D-points examples from the prevous sections.
         scala> clusters.predict(Vectors.dense(-12,-4))
         res4: Int = 1
 
+You must check that a couple of new entries from different topics are labelled as expected, for example:
+
+1. `"barcelona messi gol iniesta"`
+2. `"paella ramblas vermut barcelona playa"`
+
+To do that, you must generate hashing tf from the senteces an use the KMeansModel to predict their label.
 
