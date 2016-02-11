@@ -14,7 +14,8 @@ from pyspark import SparkConf, SparkContext
 from pyspark.mllib.feature import HashingTF
 from pyspark.mllib.clustering import KMeans
 
-conf = SparkConf().setAppName("photo-classifier").setMaster("local[2]")
+conf = (SparkConf().setAppName("photo-classifier")
+	.setMaster("local[2]"))
 sc = SparkContext(conf = conf)
 
 ## 1 - Loading and cleaning the data
@@ -39,10 +40,10 @@ clusters = KMeans.train(tf,2,50)
 
 ## 4 - Checking the group of each of the existing pictures
 
-print "The existing pictures belong to the next groups:"
 def showTagsGroup((tag, group)):
 	print "\t%s. Labeled as: %d" % (tag, group)
 
+print "The existing pictures belong to the next groups:"
 (photoTags.map(lambda x: (x, clusters.predict(hashingTF.transform(x))))
 	.foreach(showTagsGroup))
 
