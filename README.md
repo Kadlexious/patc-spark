@@ -1,6 +1,6 @@
-# Data analytics with Apache Spark (PRACE Advanced Training Centre)
+# Data analytics with Apache Spark
 
-Materials for the Apache Spark session for the [PATC course on Big Data Analytics](http://www.bsc.es/big-data-analytics).
+Materials for the Apache Spark session for the UPC/BSC course on Big Data Analytics.
 
 The course exercises can be followed in three programming languages, according to which makes the student feel more confortable:
 Scala, Java and Python. However, Java is discouraged since its verbosity (even with Java 8's _lambdas_) and
@@ -24,10 +24,7 @@ hands-on exercises.
 
 ## Software requirements for this course
 
-A [VirtualBox](http://www.virtualbox.org) pre-configured Linux virtual machine will be provided containing all the required
-software.
-
-However, you may prefer to install them in your computer without virtualization. The required software and libraries
+The required software and libraries
 are easy to install, not too invasive, 
 and may work in Windows/Mac/Linux without major problems. Following are listed the software requirements if you plan
 to follow the Scala/Java or Python version:
