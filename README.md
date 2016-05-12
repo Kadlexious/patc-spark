@@ -41,7 +41,7 @@ If you plan to follow the Scala/Java version of the course:
 The provided `jvm/spark-template` Maven project will automatically download and configure the required libraries, so there
 is no need of installation of extra packages in your computer.
 
-If you want to use the Spark interactive console, you will need to download the [Apache Spark 1.6.0 pre-built package](http://www.apache.org/dyn/closer.lua/spark/spark-1.6.0/spark-1.6.0.tgz).
+If you want to use the Spark interactive console, you will need to download the [Apache Spark 1.6.1 pre-built package](http://ftp.cixug.es/apache/spark/spark-1.6.1/spark-1.6.1-bin-hadoop1-scala2.11.tgz).
 
 ### Requirements Python
 
