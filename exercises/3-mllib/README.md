@@ -1,9 +1,6 @@
 # Step-by-step MLlib hands-on
 
-*IMPORTANT NOTE*: if you are using Java/Scala in the course's VM, add the next option to Maven or Java:
 
-    -Xmx1024m
-    
 ## Grouping labeled images
 
 Suppose you have a set of labeled pictures from _Instagram_. Those pictures are in the [phototags.txt](phototags.txt) file, where
@@ -14,9 +11,9 @@ each line contains the different labels for a given picture:
     Paella Barcelona Instagram vermut Champions
     RAMBLAS PAELLA RAMBLAS INSTAGRAM INIESTA
     MESSI MADRID INSTAGRAM GOL PORTERIA
-    BarCelona Messi Instagram Twitter Balón
+    BarCelona Messi Instagram Twitter Balon
     Messi GOL BaRceLona INSTAGRAM arena
-    sangría paella instaGram AGUA Barcelona
+    sangria paella instaGram AGUA Barcelona
 
 Using the tags, we want to classify the pictures according to a set of given topics.
 
@@ -29,10 +26,24 @@ This exercise will show you:
 
 The tags from [phototags.txt](phototags.txt) are introduced by a large set of users, and they may be slightly different
 (e.g. `sangria` != 'Sangría'). The first step is to load the data in an RDD, where each element is an array of tags for a single photo.
-You must clean the tags by:
+You must clean the tags by converting them to lower case.
 
-1. Converting them to lower case.
-2. Replacing Spanish accents `áéíóú` by non-accent vowels `aeiou`
+    photoTags = (sc.textFile("phototags.txt")
+             .map(lambda line: line.lower().split(" "))
+             .persist())
+
+In the interactive console, you can see the `photoTags` contents by typing:
+
+    In [7]: photoTags.collect()
+    Out[7]:
+    [[u'messi', u'barcelona', u'madrid', u'instagram', u'barcelona'],
+     [u'barcelona', u'paella', u'playa', u'sangria', u'instagram'],
+     [u'paella', u'barcelona', u'instagram', u'vermut', u'champions'],
+     [u'ramblas', u'paella', u'ramblas', u'instagram', u'iniesta'],
+     [u'messi', u'madrid', u'instagram', u'gol', u'porteria'],
+     [u'barcelona', u'messi', u'instagram', u'twitter', u'bal\xf3n'],
+     [u'messi', u'gol', u'barcelona', u'instagram', u'arena'],
+     [u'sangr\xeda', u'paella', u'instagram', u'agua', u'barcelona']]
 
 ## 2 - Feature extraction and transformation
 
@@ -41,41 +52,42 @@ as MLlib example functionality.
 
 `HashingTF` class allows obtaining a Hash with the term frequencies of each word in a document. For example:
 
-    scala> import org.apache.spark.mllib._
-    scala> import org.apache.spark.rdd.RDD
-    scala> import org.apache.spark.mllib.feature.HashingTF
-    scala> val words : RDD[Seq[String]] = sc.parallelize(Array("to be or not to be")).map(v => v.split(" "))
-    scala> val hashingTF = new HashingTF()
-    scala> val tf = hashingTF.transform(words)
-    scala> tf.collect()
-    res0: Array[org.apache.spark.mllib.linalg.Vector] = Array((1048576,[3139,3555,3707,109267],[2.0,1.0,2.0,1.0]))
+    from pyspark.mllib.feature import HashingTF
+    hashingTF = HashingTF()
+    tf = hashingTF.transform(photoTags)
 
-The the returned vector shows an array with the next components:
+From the interactive console, you can see the contents of `tf` by typing:
+
+    In [8]: tf.collect()
+    Out[8]:
+    [SparseVector(1048576, {388745: 1.0, 503816: 1.0, 618478: 2.0, 929925: 1.0}),
+     SparseVector(1048576, {178348: 1.0, 618478: 1.0, 767093: 1.0, 929925: 1.0, 1030326: 1.0}),
+     SparseVector(1048576, {355677: 1.0, 618478: 1.0, 630725: 1.0, 767093: 1.0, 929925: 1.0}),
+     SparseVector(1048576, {239361: 2.0, 645012: 1.0, 767093: 1.0, 929925: 1.0}),
+     SparseVector(1048576, {102762: 1.0, 388745: 1.0, 503816: 1.0, 582305: 1.0, 929925: 1.0}),
+     SparseVector(1048576, {384611: 1.0, 503816: 1.0, 618478: 1.0, 900746: 1.0, 929925: 1.0}),
+     SparseVector(1048576, {143584: 1.0, 503816: 1.0, 582305: 1.0, 618478: 1.0, 929925: 1.0}),
+     SparseVector(1048576, {446808: 1.0, 618478: 1.0, 767093: 1.0, 929925: 1.0, 1046606: 1.0})]
+
+Each returned `SparseVector` shows an array with the next components:
 
 * The default value for `HashingTf()` --> 2^20 = 1048576
-* A vector with the hash representation of each word
-* A vector with the frequency for each of the corresponding words.
- 
-*TIP*: You can execute the HashingTF transform method to obtain TFs for the tags in the  [phototags.txt](phototags.txt) libraries. You will get a resulting vector for each line of the file.
+* A Map with the hash representation of each word followid by its frequency in the sentence
 
 ## 3 - Clustering
 
-Now is time to use the `KMeans` clustering algorithm to classify the pictures into two different categories.
+Each `SparseVector` object can be seen as a point in a n-dimensional space.
 
-An example of usage of `KMeans`:
+Now is time to use the `KMeans` clustering algorithm to classify the pictures into two different categories:
 
-        scala> import org.apache.spark.mllib.clustering.KMeans
-        scala> import org.apache.spark.mllib.linalg.Vector
-        scala> import org.apache.spark.mllib.linalg.Vectors
-        scala> var points = sc.parallelize(Array(
-             | Vectors.dense(10,10), Vectors.dense(11,10), Vectors.dense(-10,-10), Vectors.dense(-12,-9)))
-        scala> val clusters = KMeans.train(points, 2, 19)
-        scala> clusters.clusterCenters
-        res2: Array[org.apache.spark.mllib.linalg.Vector] = Array([10.5,10.0], [-11.0,-9.5])
+    from pyspark.mllib.clustering import KMeans
+    clusters = KMeans.train(tf,2,maxIterations=50)
 
-Please refer to the [Spark API](https://spark.apache.org/docs/latest/api/scala/index.html) to get the details on the parameters required by `KMeans.train`.
+where `2` is the number of categories and `maxIterations=50` is the maximum number of times to update the clusters if the algorithm does not converge to a stable solution.
 
-*TIP*: you can execute the KMeans training using the TF hashtable from the previous section, as first argument. That will classify the pictures in two groups.
+The `clusters` variable is now an instance of the `KMeansModel` class.
+
+Please refer to the [Spark API](https://spark.apache.org/docs/latest/api/scala/index.html) to get the details on `KMeans` and `KMeansModel` classes.
 
 ## 4 - Checking the group of each of the existing pictures
 
@@ -85,25 +97,40 @@ You can check the classification of the tags, by calling the `KMeansModel.predic
 
 Applying this step with the generated KMeansModel from the previous example:
 
-        scala> points.map(point => Seq(point, clusters.predict(point))).collect()
-        res2: Array[Seq[Any]] = Array(List([10.0,10.0], 0), List([11.0,10.0], 0), List([-10.0,-10.0], 1), List([-12.0,-9.0], 1))
+    def showTagsGroup((tag, group)):
+    	print "\t%s. Labeled as: %d" % (tag, group)
+    	
+    print "The existing pictures belong to the next groups:"
+    (photoTags.map(lambda x: (x, clusters.predict(hashingTF.transform(x))))
+    	.foreach(showTagsGroup))
 
-*TIP*: for this exercise, the `predict` method does not have to receive the text line as a parameter, but a generated `TF`, as a result of the `tf.transform(<pictureTags>)`
+Here, the `predict` method is not predicting but entries from the past. It is used just to observ the classification `KMeans` has done with the training set.
+
+*NOTE*: At this point you can unpersist the `photoTags` RDD to free its occupied memory:
+
+    photoTags.unpersist()
 
 ## 5 - Checking the group of new entries
 
-Example with the 2D-points examples from the prevous sections.
-
-        scala> clusters.predict(Vectors.dense(12,15))
-        res3: Int = 0
-        
-        scala> clusters.predict(Vectors.dense(-12,-4))
-        res4: Int = 1
-
-You must check that a couple of new entries from different topics are labelled as expected, for example:
+You can check that a couple of new entries from different topics are labelled as expected, for example:
 
 1. `"barcelona messi gol iniesta"`
 2. `"paella ramblas vermut barcelona playa"`
 
-To do that, you must generate hashing tf from the senteces an use the KMeansModel to predict their label.
+To do that, you must generate hashing tf from the senteces an use the KMeansModel to predict their label:
+
+    (sc.parallelize(["barcelona messi gol iniesta"])
+        .map(lambda l: l.split(" "))
+        .map(lambda words: (words, clusters.predict(hashingTF.transform(words))))
+        .foreach(showTagsGroup))
+        
+    (sc.parallelize(["paella ramblas vermut barcelona playa"])
+        .map(lambda l: l.split(" "))
+        .map(lambda words: (words, clusters.predict(hashingTF.transform(words))))
+        .foreach(showTagsGroup))
+        
+You have to see the next output:
+
+    ['barcelona', 'messi', 'gol', 'iniesta']. Labeled as: 0
+    ['paella', 'ramblas', 'vermut', 'barcelona', 'playa']. Labeled as: 1
 
