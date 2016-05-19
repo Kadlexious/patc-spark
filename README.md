@@ -1,6 +1,6 @@
-# Data analytics with Apache Spark (PRACE Advanced Training Centre)
+# Data analytics with Apache Spark
 
-Materials for the Apache Spark session for the [PATC course on Big Data Analytics](http://www.bsc.es/big-data-analytics).
+Materials for the Apache Spark session for the UPC/BSC course on Big Data Analytics.
 
 The course exercises can be followed in three programming languages, according to which makes the student feel more confortable:
 Scala, Java and Python. However, Java is discouraged since its verbosity (even with Java 8's _lambdas_) and
@@ -24,10 +24,7 @@ hands-on exercises.
 
 ## Software requirements for this course
 
-A [VirtualBox](http://www.virtualbox.org) pre-configured Linux virtual machine will be provided containing all the required
-software.
-
-However, you may prefer to install them in your computer without virtualization. The required software and libraries
+The required software and libraries
 are easy to install, not too invasive, 
 and may work in Windows/Mac/Linux without major problems. Following are listed the software requirements if you plan
 to follow the Scala/Java or Python version:
@@ -44,14 +41,14 @@ If you plan to follow the Scala/Java version of the course:
 The provided `jvm/spark-template` Maven project will automatically download and configure the required libraries, so there
 is no need of installation of extra packages in your computer.
 
-If you want to use the Spark interactive console, you will need to download the [Apache Spark 1.6.0 pre-built package](http://www.apache.org/dyn/closer.lua/spark/spark-1.6.0/spark-1.6.0.tgz).
+If you want to use the Spark interactive console, you will need to download the [Apache Spark 1.6.1 pre-built package](http://ftp.cixug.es/apache/spark/spark-1.6.1/spark-1.6.1-bin-hadoop1-scala2.11.tgz).
 
 ### Requirements Python
 
 If you plan to follow the Python version of the course:
 
 * Pyhon 2.6+, 3.4+ or PyPy 2.3+
-* [Apache Spark 1.6.0 pre-built package](http://www.apache.org/dyn/closer.lua/spark/spark-1.6.0/spark-1.6.0.tgz)
+* [Apache Spark 1.6.1 pre-built package](http://ftp.cixug.es/apache/spark/spark-1.6.1/spark-1.6.1-bin-hadoop1-scala2.11.tgz)
 
 ## Structure of this repository
 

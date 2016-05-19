@@ -9,9 +9,9 @@
 from pyspark import SparkConf, SparkContext
 
 conf = SparkConf().setAppName("spark-template").setMaster("local")
-sparkContext = SparkContext(conf = conf)
+sc = SparkContext(conf = conf)
 
-val = (sparkContext.parallelize([1,2,3,4,5,6])
+val = (sc.parallelize([1,2,3,4,5,6])
 	.filter(lambda n : n % 2 == 0)
 	.sum())
 
