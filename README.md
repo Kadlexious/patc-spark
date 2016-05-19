@@ -48,7 +48,7 @@ If you want to use the Spark interactive console, you will need to download the 
 If you plan to follow the Python version of the course:
 
 * Pyhon 2.6+, 3.4+ or PyPy 2.3+
-* [Apache Spark 1.6.0 pre-built package](http://www.apache.org/dyn/closer.lua/spark/spark-1.6.0/spark-1.6.0.tgz)
+* [Apache Spark 1.6.1 pre-built package](http://ftp.cixug.es/apache/spark/spark-1.6.1/spark-1.6.1-bin-hadoop1-scala2.11.tgz)
 
 ## Structure of this repository
 
